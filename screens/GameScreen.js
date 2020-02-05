@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { View, Text, ScrollView, StyleSheet, Alert } from 'react-native'
+import { View, Text, ScrollView, StyleSheet, Alert, Dimensions } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { colors } from '../theme'
 import Card from '../components/Card'
@@ -9,11 +9,17 @@ import PrimaryButton from '../components/PrimaryButton'
 
 const styles = StyleSheet.create({
     screen: {
-        flex: 1,
         padding:10,
-        alignItems: 'center'
+        alignItems: 'center',
+        flexGrow: 1
+    },
+    screenView: {
+        alignItems: 'center',
+        flexGrow: 1
     },
     opponentGuessContainer: {
+        width: 250,
+        maxWidth: '90%',
         alignItems: 'center',
         padding: 10,
         marginTop: 10
@@ -28,7 +34,8 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: colors.accent,
         borderColor: colors.accent,
-        width: 60,
+        width: Dimensions.get('window').width / 7,
+        // can use Dimensions conditionally
         marginHorizontal: 10
     },
     prevGuessesHeader: {
@@ -36,6 +43,8 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
     guessOutputContainer: {
+        width: 300,
+        maxWidth:'90%',
         flex: 1,
         padding: 10
     },
@@ -45,7 +54,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end'
     },
     guessView: {
-        width: '60%',
+        width: 200,
         marginBottom: 10,
         paddingHorizontal: 5,
         paddingVertical: 10,
@@ -129,26 +138,28 @@ const GameScreen = props => {
     }
 
     return (
-        <View style={styles.screen}>
-            <Card style={styles.opponentGuessContainer}>
-                <ContentText>Opponent's Guess</ContentText>
-                <NumberOutput>{currentGuess}</NumberOutput>
-                <View style={styles.buttonContainer}>
-                    <PrimaryButton style={styles.button} press={() => nextGuessHandler('lower')}>
-                        <Ionicons name="md-remove-circle-outline" size={32} />
-                    </PrimaryButton>
-                    <PrimaryButton style={styles.button} press={() => nextGuessHandler('higher')}>
-                        <Ionicons name="md-add-circle-outline" size={32} />
-                    </PrimaryButton>
+        <ScrollView contentContainerStyle={styles.screen}>
+            <View style={styles.screenView}>
+                <Card style={styles.opponentGuessContainer}>
+                    <ContentText>Opponent's Guess</ContentText>
+                    <NumberOutput>{currentGuess}</NumberOutput>
+                    <View style={styles.buttonContainer}>
+                        <PrimaryButton style={styles.button} press={() => nextGuessHandler('lower')}>
+                            <Ionicons name="md-remove-circle-outline" size={32} />
+                        </PrimaryButton>
+                        <PrimaryButton style={styles.button} press={() => nextGuessHandler('higher')}>
+                            <Ionicons name="md-add-circle-outline" size={32} />
+                        </PrimaryButton>
+                    </View>
+                </Card>
+                <ContentText style={styles.prevGuessesHeader}>Previous Guesses:</ContentText>
+                <View style={styles.guessOutputContainer}>
+                    <ScrollView contentContainerStyle={styles.guessOutput}>
+                        {pastGuess.map((guess, index) => pastGuessItem(guess, pastGuess.length - index))}
+                    </ScrollView>
                 </View>
-            </Card>
-            <ContentText style={styles.prevGuessesHeader}>Previous Guesses:</ContentText>
-            <View style={styles.guessOutputContainer}>
-                <ScrollView contentContainerStyle={styles.guessOutput}>
-                    {pastGuess.map((guess, index) => pastGuessItem(guess, pastGuess.length - index))}
-                </ScrollView>
             </View>
-        </View>
+        </ScrollView>
     )
 }
 

@@ -1,5 +1,14 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, Text, ScrollView, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native'
+import { 
+    View, 
+    StyleSheet, 
+    Text, 
+    ScrollView, 
+    TouchableWithoutFeedback, 
+    Keyboard, 
+    Alert, 
+    KeyboardAvoidingView
+ } from 'react-native'
 import Card from '../components/Card'
 import Input from '../components/Input'
 import ContentText from '../components/ContentText'
@@ -40,7 +49,7 @@ const styles = StyleSheet.create({
         width: '50%'
     },
     buttonView: {
-        width: 100,
+        width: '70%',
         margin: 5,
         borderRadius: 3
     },
@@ -55,10 +64,11 @@ const styles = StyleSheet.create({
     startButton: {
         backgroundColor: colors.accent,
         borderColor: colors.accent,
-        width: 100
+        paddingHorizontal: 10
     },
     confirmedOutputCard: {
-        width: '50%',
+        width: 200,
+        maxWidth: '50%',
         marginTop: 30,
         padding: 10,
         alignItems: 'center'
@@ -115,32 +125,34 @@ const StartGameScreen = props => {
 
     return (
         <ScrollView>
-        <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
-            <View style={styles.screen}>
-                <Text style={styles.title}>Start a New Game</Text>
-                <Card style={styles.container}>
-                    <ContentText>Select a Number</ContentText>
-                    <Input 
-                        style={styles.inputContainer} 
-                        keyboardType="numeric" 
-                        blurOnInput 
-                        autocorrect={false} 
-                        maxLength={4}
-                        onChangeText={numberInputHandler}
-                        value={enteredValue} 
-                    />
-                    <View style={styles.buttonContainer}>
-                        <View style={styles.buttonView}>
-                            <PrimaryButton style={styles.resetButton} press={resetInputHandler}>RESET</PrimaryButton>
-                        </View>
-                        <View style={styles.buttonView}>
-                            <PrimaryButton style={styles.confirmButton} press={() => confirmInputHandler()}>CONFIRM</PrimaryButton>
-                        </View>
+            <KeyboardAvoidingView behaviour="position" keyboardVerticalOffset={30}>
+                <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
+                    <View style={styles.screen}>
+                        <Text style={styles.title}>Start a New Game</Text>
+                        <Card style={styles.container}>
+                            <ContentText>Select a Number</ContentText>
+                            <Input 
+                                style={styles.inputContainer} 
+                                keyboardType="numeric" 
+                                blurOnInput 
+                                autocorrect={false} 
+                                maxLength={4}
+                                onChangeText={numberInputHandler}
+                                value={enteredValue} 
+                            />
+                            <View style={styles.buttonContainer}>
+                                <View style={styles.buttonView}>
+                                    <PrimaryButton style={styles.resetButton} press={resetInputHandler}>RESET</PrimaryButton>
+                                </View>
+                                <View style={styles.buttonView}>
+                                    <PrimaryButton style={styles.confirmButton} press={() => confirmInputHandler()}>CONFIRM</PrimaryButton>
+                                </View>
+                            </View>
+                        </Card>
+                        {confirmedOutput}
                     </View>
-                </Card>
-                {confirmedOutput}
-            </View>
-        </TouchableWithoutFeedback>
+                </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
         </ScrollView>
     )
 }

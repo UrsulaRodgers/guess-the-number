@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, Image, ScrollView, Dimensions } from 'react-native'
 import { colors } from '../theme'
 import Card from '../components/Card'
 import ContentText from '../components/ContentText'
@@ -16,8 +16,8 @@ const styles = StyleSheet.create({
         width: 300,
         maxWidth:'95%',
         alignItems: 'center',
-        padding:30,
-        marginVertical: 10
+        padding: 30,
+        marginVertical: Dimensions.get('window').width * 0.03
     },
     gameOverCardText: {
         fontSize: 22,
@@ -27,13 +27,13 @@ const styles = StyleSheet.create({
         color: colors.primary
     },
     imageContainer: {
-        width: 200,
-        height: 200,
-        borderRadius: 100,
+        width: Dimensions.get('window').width * 0.6,
+        height: Dimensions.get('window').width * 0.6,
+        borderRadius: Dimensions.get('window').width * 0.3,
         borderWidth: 3,
         borderColor: colors.input,
         overflow: 'hidden',
-        marginVertical: 10
+        marginVertical: Dimensions.get('window').width * 0.03
     },
     image: {
         width: '100%',
