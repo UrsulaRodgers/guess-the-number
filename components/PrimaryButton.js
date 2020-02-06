@@ -1,7 +1,10 @@
 import React from 'react'
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
+import { Text, View, TouchableOpacity, TouchableNativeFeedback, Platform, StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
+    buttonContainer: {
+        borderRadius: 3
+    },
     button: {
         margin: 5,
         borderWidth: 1,
@@ -16,12 +19,20 @@ const styles = StyleSheet.create({
 })
 
 const PrimaryButton = props => {
+    let ButtonComponent = TouchableOpacity
+
+    if (Platform.OS === 'android' && Platform.Version > 21) {
+        ButtonComponent = TouchableNativeFeedback
+    }
+
     return(
-        <TouchableOpacity onPress={props.press}>
+        <View style={styles.buttonContainer}>
+            <ButtonComponent onPress={props.press}>
             <View style={{...props.style, ...styles.button}}>
                 <Text style={styles.buttonText}>{props.children}</Text>
             </View>
-        </TouchableOpacity>
+        </ButtonComponent>
+        </View>
     )
 }
 
