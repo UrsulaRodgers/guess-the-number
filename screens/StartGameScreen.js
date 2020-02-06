@@ -125,7 +125,7 @@ const StartGameScreen = props => {
 
     return (
         <ScrollView>
-            <KeyboardAvoidingView behaviour="position" keyboardVerticalOffset={30}>
+            <KeyboardAvoidingView behaviour="position">
                 <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
                     <View style={styles.screen}>
                         <Text style={styles.title}>Start a New Game</Text>

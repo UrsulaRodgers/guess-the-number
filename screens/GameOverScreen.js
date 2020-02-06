@@ -50,21 +50,21 @@ const GameOverScreen = props => {
     const { rounds, selectedNumber } = props
     return (
         <ScrollView>
-        <View style={styles.screen}>
-            <Card style={styles.gameOverCard}>
-                <ContentText style={styles.gameOverCardText}>GAME OVER!</ContentText>
-                <View style={styles.imageContainer}>
-                    <Image 
-                        source={require('../assets/success.png')} 
-                        style={styles.image}
-                        resizeMode="cover"
-                    />
-                </View>
-                <ContentText>Number of Rounds: <Text style={styles.number}>{rounds}</Text></ContentText>
-                <ContentText>Selected Number to Guess: <Text style={styles.number}>{selectedNumber}</Text></ContentText>
-            </Card>
-            <PrimaryButton style={styles.button} press={() => props.startScreenHandler()}>PLAY AGAIN</PrimaryButton>
-        </View>
+            <View style={styles.screen}>
+                <Card style={styles.gameOverCard}>
+                    <ContentText style={styles.gameOverCardText}>GAME OVER!</ContentText>
+                        <View style={styles.imageContainer}>
+                            <Image 
+                                source={require('../assets/success.png')} 
+                                style={styles.image}
+                                resizeMode="cover"
+                            />
+                        </View>
+                    <ContentText>Number of Rounds: <Text style={styles.number}>{rounds}</Text></ContentText>
+                    <ContentText>Selected Number to Guess: <Text style={styles.number}>{selectedNumber}</Text></ContentText>
+                </Card>
+                <PrimaryButton style={styles.button} press={() => props.startScreenHandler()}>PLAY AGAIN</PrimaryButton>
+            </View>
         </ScrollView>
     )
 }
