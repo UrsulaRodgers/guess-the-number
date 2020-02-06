@@ -94,6 +94,7 @@ const GameScreen = props => {
     const [currentGuess, setCurrentGuess] = useState(randomNumberGenerator(1,1000, props.selectedNumber))
     const [rounds, setRounds ] = useState(0)
     const [pastGuess, setPastGuess] = useState([])
+    const [availableDeviceHeight, setAvailableDeviceHeight] = useState(Dimensions.get('window').height)
     const currentLow = useRef(1)
     const currentHigh = useRef(1000)
 
@@ -104,6 +105,18 @@ const GameScreen = props => {
             onGameOver(rounds)
         }
     }, [currentGuess, selectedNumber, onGameOver])
+
+    useEffect(() => {
+        const updateAvailableScreenSize = () => {
+             setAvailableDeviceHeight(Dimensions.get('window').height)
+        }
+ 
+        Dimensions.addEventListener('change', updateAvailableScreenSize)
+         
+         return () => {
+             Dimensions.removeEventListener('change', updateAvailableScreenSize)
+         }
+     })
 
     nextGuessHandler = direction => {
         if (
@@ -137,6 +150,32 @@ const GameScreen = props => {
         )
     }
 
+    if (availableDeviceHeight < 500) {
+        return (
+            <ScrollView contentContainerStyle={styles.screen}>
+            <View style={styles.screenView}>
+                <Card style={styles.opponentGuessContainer}>
+                    <ContentText>Opponent's Guess</ContentText>
+                    <View style={styles.buttonContainer}>
+                        <PrimaryButton style={styles.button} press={() => nextGuessHandler('lower')}>
+                            <Ionicons name="md-remove-circle-outline" size={32} />
+                        </PrimaryButton>
+                        <NumberOutput>{currentGuess}</NumberOutput>
+                        <PrimaryButton style={styles.button} press={() => nextGuessHandler('higher')}>
+                            <Ionicons name="md-add-circle-outline" size={32} />
+                        </PrimaryButton>
+                    </View>
+                </Card>
+                <ContentText style={styles.prevGuessesHeader}>Previous Guesses:</ContentText>
+                <View style={styles.guessOutputContainer}>
+                    <ScrollView contentContainerStyle={styles.guessOutput}>
+                        {pastGuess.map((guess, index) => pastGuessItem(guess, pastGuess.length - index))}
+                    </ScrollView>
+                </View>
+            </View>
+        </ScrollView>
+        )
+    }
     return (
         <ScrollView contentContainerStyle={styles.screen}>
             <View style={styles.screenView}>
